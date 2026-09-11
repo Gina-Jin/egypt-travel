@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>埃及旅行计划 · 2026.10.18-10.23</title>
+<style>
+  :root {
+    --bg: #F8F9FA;
+    --card-bg: #FFFFFF;
+    --dark-card: #1C2A3A;
+    --text-main: #1E293B;
+    --text-muted: #64748B;
+    --accent: #0D9488;
+    --accent-light: #CCFBF1;
+    --border: #E2E8F0;
+    --warn-bg: #FFF7ED;
+    --warn-text: #C2410C;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding-bottom: 40px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 顶部导航 */
+  .nav {
+    position: sticky;
+    top: 0;
+    background: rgba(248, 249, 250, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .nav-brand { font-size: 12px; font-weight: 600; color: var(--text-muted); letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 14px; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* 页面头部 */
+  .header {
+    padding: 32px 20px 20px;
+  }
+  .header-tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-main);
+    margin-bottom: 8px;
+  }
+  .header .sub {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  /* 通用区块 */
+  .section {
+    padding: 0 20px;
+    margin-bottom: 32px;
+    scroll-margin-top: 70px;
+  }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
+  }
+  .section-tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-top: 4px;
+  }
+
+  /* 深色航班卡片 - 左右滑动 */
+  .flight-slider {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .flight-slider::-webkit-scrollbar { display: none; }
+  .dark-card {
+    background: var(--dark-card);
+    color: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    min-width: 88%;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+  }
+  .dark-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .dark-card .sub {
+    font-size: 12px;
+    color: #94A3B8;
+    margin-bottom: 20px;
+  }
+  .flight-route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .flight-city { text-align: center; }
+  .flight-city .code {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .flight-city .name {
+    font-size: 12px;
+    color: #94A3B8;
+    margin-top: 2px;
+  }
+  .flight-path {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px;
+  }
+  .flight-path .line {
+    width: 100%;
+    height: 1px;
+    background: #475569;
+    position: relative;
+    margin: 6px 0;
+  }
+  .flight-path .line::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    border-top: 1px solid #475569;
+    border-right: 1px solid #475569;
+    transform: rotate(45deg);
+  }
+  .flight-path .num { font-size: 10px; color: #94A3B8; }
+  .flight-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #CBD5E1;
+    border-top: 1px solid #334155;
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+  .flight-info .big-time {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    display: block;
+    margin-top: 2px;
+  }
+  .countdown {
+    background: #334155;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #CBD5E1;
+    text-align: center;
+  }
+  .countdown strong { color: #FBBF24; font-size: 14px; }
+
+  /* 地图 */
+  .map-box {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .map-box img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+  .map-box .map-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* 租车卡片 */
+  .rental-card {
+    background: var(--dark-card);
+    color: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .rental-card .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .rental-card .car-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .rental-card .car-type {
+    font-size: 12px;
+    color: #94A3B8;
+  }
+  .rental-card .badge-warn {
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .rental-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #334155;
+    font-size: 13px;
+  }
+  .rental-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .rental-row .label { color: #94A3B8; }
+  .rental-row .value { font-weight: 500; text-align: right; }
+
+  /* 租车选项卡 */
+  .tabs {
+    display: flex;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .tab {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding-bottom: 8px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    flex-shrink: 0;
+  }
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .tab-panel ul {
+    list-style: none;
+    padding: 0;
+  }
+  .tab-panel ul li {
+    font-size: 13px;
+    color: var(--text-main);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    padding-left: 16px;
+  }
+  .tab-panel ul li:last-child { border-bottom: none; }
+  .tab-panel ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  /* 每日行程折叠 */
+  .day-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .day-header .left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .day-header .day-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .day-header .day-city {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .day-header .right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .day-header .ticket-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--warn-bg);
+    color: var(--warn-text);
+  }
+  .day-header .ticket-badge.done {
+    background: #DCFCE7;
+    color: #166534;
+  }
+  .day-header .arrow {
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+  }
+  .day-card.open .day-header .arrow { transform: rotate(180deg); }
+  .day-body {
+    display: none;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .day-card.open .day-body { display: block; }
+
+  /* 时间轴 */
+  .timeline { position: relative; padding-left: 16px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 16px;
+    padding-left: 12px;
+    font-size: 13px;
+  }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -17px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--card-bg);
+  }
+  .timeline-item .time {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+  .timeline-item .content .title { font-weight: 500; color: var(--text-main); }
+  .timeline-item .content .desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .timeline-item .content .map-link {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 4px;
+    background: var(--accent-light);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* 购票勾选 */
+  .ticket-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .ticket-check input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 14px;
+    height: 14px;
+  }
+
+  /* 标签 */
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--accent-light);
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .tag.warn { background: var(--warn-bg); color: var(--warn-text); }
+
+  /* 提示框 */
+  .tip-box {
+    background: var(--warn-bg);
+    border-left: 3px solid var(--warn-text);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #7C2D12;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .tip-box strong { font-weight: 600; }
+
+  /* 列表项 */
+  .list-item {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .list-item .status {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #F1F5F9;
+    color: var(--text-muted);
+  }
+  .list-item .status.done { background: #DCFCE7; color: #166534; }
+
+  /* 准备事项 & 伴手礼 */
+  .prep-list { margin-bottom: 12px; }
+  .prep-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .prep-item input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .prep-item span {
+    flex: 1;
+    word-break: break-word;
+  }
+  .prep-item span.done {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+  .prep-item .del {
+    font-size: 12px;
+    color: var(--warn-text);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .prep-add {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .prep-add input {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    outline: none;
+    background: var(--card-bg);
+  }
+  .prep-add button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* 回到顶部 */
+  .back-top {
+    position: fixed;
+    right: 20px;
+    bottom: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--dark-card);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 200;
+    display: none;
+  }
+
+  /* 底部 */
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: #94A3B8;
+    margin-top: 40px;
+    padding: 0 20px;
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="nav">
+  <div class="nav-brand">EG / 2026</div>
+  <div class="nav-links">
+    <a href="#flights">航班</a>
+    <a href="#itinerary">行程</a>
+    <a href="#rental">自驾</a>
+    <a href="#tips">Tips</a>
+    <a href="#todo">Todo</a>
+    <a href="#souvenir">伴手礼</a>
+  </div>
+</nav>
+
+<!-- 头部 -->
+<header class="header">
+  <div class="header-tag">EGYPT · 2026</div>
+  <h1>埃及</h1>
+  <div class="sub">10月18日 — 10月23日 · 6天5晚 · 2人自驾</div>
+</header>
+
+<!-- 航班 -->
+<section class="section" id="flights">
+  <div class="section-head">
+    <div>
+      <div class="section-tag">FLIGHT</div>
+      <div class="section-title">航班行程</div>
+    </div>
+  </div>
+
+  <div class="flight-slider">
+    <!-- 去程 -->
+    <div class="dark-card">
+      <h3>去程 · 北京 → 开罗</h3>
+      <div class="sub">CA829 · 埃及当地时间</div>
+      <div class="flight-route">
+        <div class="flight-city">
+          <div class="code">PEK</div>
+          <div class="name">北京</div>
+        </div>
+        <div class="flight-path">
+          <div class="num">CA829</div>
+          <div class="line"></div>
+          <div class="num">12h 45m</div>
+        </div>
+        <div class="flight-city">
+          <div class="code">CAI</div>
+          <div class="name">开罗</div>
+        </div>
+      </div>
+      <div class="flight-info">
+        <div>10.18 起飞<span class="big-time">02:30</span></div>
+        <div style="text-align:right;">10.18 到达<span class="big-time">09:15</span></div>
+      </div>
+      <div class="countdown" id="countdown">距离起飞还有：<strong>--</strong></div>
+    </div>
+
+    <!-- 返程 -->
+    <div class="dark-card">
+      <h3>返程 · 开罗 → 北京</h3>
+      <div class="sub">CA830 · 埃及当地时间</div>
+      <div class="flight-route">
+        <div class="flight-city">
+          <div class="code">CAI</div>
+          <div class="name">开罗</div>
+        </div>
+        <div class="flight-path">
+          <div class="num">CA830</div>
+          <div class="line"></div>
+          <div class="num">8h 45m</div>
+        </div>
+        <div class="flight-city">
+          <div class="code">PEK</div>
+          <div class="name">北京</div>
+        </div>
+      </div>
+      <div class="flight-info">
+        <div>10.23 起飞<span class="big-time">14:15</span></div>
+        <div style="text-align:right;">10.24 到达<span class="big-time">05:00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 地图 -->
+  <div class="map-box" style="margin-top:12px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Egypt_location_map.svg/800px-Egypt_location_map.svg.png" alt="埃及地图">
+    <div class="map-desc">① 开罗 → ② 卢克索 → ③ 赫尔格达 → 开罗</div>
+  </div>
+</section>
+
+<!-- 每日行程 -->
+<section class="section" id="itinerary">
+  <div class="section-head">
+    <div>
+      <div class="section-tag">DAY BY DAY</div>
+      <div class="section-title">每日行程</div>
+    </div>
+  </div>
+
+  <!-- Day 1 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="left">
+        <span class="day-title">DAY 01 · 10.18</span>
+        <span class="day-city">开罗</span>
+      </div>
+      <div class="right">
+        <span class="ticket-badge" id="ticket-badge-1">2项待购票</span>
+        <span class="arrow">▼</span>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">09:15</div>
+          <div class="content">
+            <div class="title">落地开罗</div>
+            <div class="desc">入境卡、落地签、过关、换汇、电话卡</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">中午</div>
+          <div class="content">
+            <div class="title">到酒店放行李</div>
+            <div class="desc">打车约30分钟 · 定位T3到达出口对面下楼</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">下午</div>
+          <div class="content">
+            <div class="title">吉萨金字塔 + 骆驼</div>
+            <div class="desc">门票700埃镑 · 营业至16:00 · 骆驼砍价200-300</div>
+            <div class="tag-list">
+              <a class="tag" href="https://www.google.com/maps/search/?api=1&query=Giza+Pyramids" target="_blank">吉萨金字塔</a>
+              <a class="tag" href="https://www.google.com/maps/search/?api=1&query=Great+Sphinx+of+Giza" target="_blank">狮身人面像</a>
+            </div>
+            <div class="ticket-check">
+              <input type="checkbox" class="ticket-toggle" data-day="1" onchange="updateTicketBadge(1)"> 已购票 吉萨金字塔
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">傍晚</div>
+          <div class="content">
+            <div class="title">Citystars 逛逛</div>
+            <div class="desc">为取车预留时间</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">21:00</div>
+          <div class="content">
+            <div class="title">取车</div>
+            <div class="desc">Citystars Mall · Geely GX3 pro</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Citystars+Mall+Cairo" target="_blank">📍 Citystars Mall</a>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">晚餐</div>
+          <div class="content">
+            <div class="title">Gambarino 海鲜餐</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Gambarino+Cairo" target="_blank">📍 Gambarino</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="left">
+        <span class="day-title">DAY 02 · 10.19</span>
+        <span class="day-city">开罗 → 卢克索</span>
+      </div>
+      <div class="right">
+        <span class="ticket-badge" id="ticket-badge-2">1项待购票</span>
+        <span class="arrow">▼</span>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">6:00-13:00</div>
+          <div class="content">
+            <div class="title">开车去卢克索</div>
+            <div class="desc">出发前买好面包、香肠、零食和水</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">14:00-17:00</div>
+          <div class="content">
+            <div class="title">卡纳克神庙</div>
+            <div class="desc">门票600埃镑 · 134根巨型石柱</div>
+            <div class="tag-list">
+              <a class="tag" href="https://www.google.com/maps/search/?api=1&query=Karnak+Temple" target="_blank">卡纳克神庙</a>
+            </div>
+            <div class="ticket-check">
+              <input type="checkbox" class="ticket-toggle" data-day="2" onchange="updateTicketBadge(2)"> 已购票 卡纳克神庙
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">17:00-19:00</div>
+          <div class="content">
+            <div class="title">尼罗河帆船</div>
+            <div class="desc">17点上船 · 确认总价 All inclusive</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Nile+Felucca+Luxor" target="_blank">📍 尼罗河帆船</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="left">
+        <span class="day-title">DAY 03 · 10.20</span>
+        <span class="day-city">卢克索 → 赫尔格达</span>
+      </div>
+      <div class="right">
+        <span class="ticket-badge" id="ticket-badge-3">2项待购票</span>
+        <span class="arrow">▼</span>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">上午</div>
+          <div class="content">
+            <div class="title">帝王谷 & 西岸古墓 & 哈布城</div>
+            <div class="desc">帝王谷500埃镑 · 哈布城200埃镑</div>
+            <div class="tag-list">
+              <a class="tag" href="https://www.google.com/maps/search/?api=1&query=Valley+of+the+Kings" target="_blank">帝王谷</a>
+              <a class="tag" href="https://www.google.com/maps/search/?api=1&query=Medinet+Habu" target="_blank">哈布城</a>
+            </div>
+            <div class="ticket-check">
+              <input type="checkbox" class="ticket-toggle" data-day="3" onchange="updateTicketBadge(3)"> 已购票 帝王谷
+            </div>
+            <div class="ticket-check">
+              <input type="checkbox" class="ticket-toggle" data-day="3" onchange="updateTicketBadge(3)"> 已购票 哈布城
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">下午</div>
+          <div class="content">
+            <div class="title">开车去赫尔格达</div>
+            <div class="desc">盘山公路 · 尽量别走夜路</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="left">
+        <span class="day-title">DAY 04 · 10.21</span>
+        <span class="day-city">赫尔格达</span>
+      </div>
+      <div class="right">
+        <span class="ticket-badge" id="ticket-badge-4">0项待购票</span>
+        <span class="arrow">▼</span>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">8:00-16:00</div>
+          <div class="content">
+            <div class="title">出海浮潜</div>
+            <div class="desc">建议穿水母衣 · 晕船药备好</div>
+            <div class="tag-list">
+              <span class="tag">红海</span>
+              <span class="tag">浮潜</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">晚上</div>
+          <div class="content">
+            <div class="title">按摩 / SPA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 5 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="left">
+        <span class="day-title">DAY 05 · 10.22</span>
+        <span class="day-city">赫尔格达 → 开罗</span>
+      </div>
+      <div class="right">
+        <span class="ticket-badge" id="ticket-badge-5">1项待购票</span>
+        <span class="arrow">▼</span>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">早上</div>
+          <div class="content">
+            <div class="title">开车回开罗</div>
+            <div class="desc">约6小时 · 早起出发 · 最美路线</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">13:00-14:00</div>
+          <div class="content">
+            <div class="title">还车</div>
+            <div class="desc">Citystars Mall · 还车前洗车加油</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Citystars+Mall+Cairo" target="_blank">📍 Citystars Mall</a>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">下午</div>
+          <div class="content">
+            <div class="title">大埃及博物馆（新馆）</div>
+            <div class="desc">最后购票17:00 · 门票1450埃镑 · 图坦卡蒙黄金面具</div>
+            <div class="tag-list">
+              <a class="tag" href="https://www.google.com/maps/search/?api=1&query=Grand+Egyptian+Museum" target="_blank">大埃及博物馆</a>
+            </div>
+            <div class="ticket-check">
+              <input type="checkbox" class="ticket-toggle" data-day="5" onchange="updateTicketBadge(5)"> 已购票 大埃及博物馆
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">晚上</div>
+          <div class="content">
+            <div class="title">可选：Khan el-Khalili 老城集市</div>
+            <div class="desc">买东西2折起步 · 伴手礼</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Khan+el-Khalili" target="_blank">📍 Khan el-Khalili</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 6 -->
+  <div class="day-card" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="left">
+        <span class="day-title">DAY 06 · 10.23</span>
+        <span class="day-city">开罗 → 北京</span>
+      </div>
+      <div class="right">
+        <span class="ticket-badge" id="ticket-badge-6">0项待购票</span>
+        <span class="arrow">▼</span>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time">上午</div>
+          <div class="content">
+            <div class="title">逛商场</div>
+            <div class="desc">建议 Citystars 附近 · 买伴手礼</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Citystars+Mall+Cairo" target="_blank">📍 Citystars Mall</a>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">10:30</div>
+          <div class="content">
+            <div class="title">出发去机场</div>
+            <div class="desc">建议11:15前到 · 国际航班</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Cairo+International+Airport" target="_blank">📍 开罗机场</a>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">14:15</div>
+          <div class="content">
+            <div class="title">CA830 起飞</div>
+            <div class="desc">北京 10.24 05:00 到达</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 自驾信息 -->
+<section class="section" id="rental">
+  <div class="section-head">
+    <div>
+      <div class="section-tag">ON THE ROAD</div>
+      <div class="section-title">自驾信息</div>
+    </div>
+  </div>
+
+  <div class="rental-card">
+    <div class="title-row">
+      <div>
+        <div class="car-name">Geely GX3 Pro</div>
+        <div class="car-type">1辆 · 2人 · 自动挡</div>
+      </div>
+      <span class="badge-warn">全险未买 ⚠️</span>
+    </div>
+    <div class="rental-row">
+      <span class="label">取车</span>
+      <span class="value">10.18 21:00<br>Citystars Mall</span>
+    </div>
+    <div class="rental-row">
+      <span class="label">还车</span>
+      <span class="value">10.22 17:00前<br>Citystars Mall</span>
+    </div>
+    <div class="rental-row">
+      <span class="label">还车准备</span>
+      <span class="value">洗车 + 加油（Chillout）</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(event, 'tab-pickup')">取车检查</div>
+    <div class="tab" onclick="switchTab(event, 'tab-drive')">驾驶提醒</div>
+    <div class="tab" onclick="switchTab(event, 'tab-return')">还车注意事项</div>
+  </div>
+
+  <div id="tab-pickup" class="tab-panel active">
+    <ul>
+      <li>驾驶人年满26周岁，三证带齐：驾驶证、国际驾驶证翻译件、本人Visa/Master卡</li>
+      <li>看清车型可租年龄段，不在区间需额外收费</li>
+      <li>多登记一个驾驶员多一笔费用，有概率抽查</li>
+      <li><strong>360度无死角录制当前车况视频</strong>，包括划痕、内饰、油量、轮胎、玻璃</li>
+      <li>确认租车公司认可哪种国际驾照：支付宝国际驾照翻译件 or IDP</li>
+    </ul>
+  </div>
+
+  <div id="tab-drive" class="tab-panel">
+    <ul>
+      <li>注意减速带：颜色和路面相近，建议20-30码过</li>
+      <li>注意本地小面包车：没有固定站点，随时上下门</li>
+      <li>警惕“黑警察”，违章在还车时处理，通常小金额</li>
+      <li>注意限速，评论区有人11张罚单</li>
+      <li>导航用 Google Map，但容易导航到军事基地，开始前确认路线</li>
+      <li>卢克索–赫尔格达：盘山公路，尽量别走夜路</li>
+      <li>赫尔格达–开罗：最美路线，后半段也有山路</li>
+    </ul>
+  </div>
+
+  <div id="tab-return" class="tab-panel">
+    <ul>
+      <li>还车前加油洗车，油量和取车前一致</li>
+      <li>推荐 Chillout（洗车+加油+麦当劳），离机场近</li>
+      <li>一定要买全险</li>
+      <li>别去机场租车还车，机场坑多</li>
+      <li>还车后拍摄位置、车况、油表和里程</li>
+      <li>取车时录的详细视频保留好，作为凭证</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Tips -->
+<section class="section" id="tips">
+  <div class="section-head">
+    <div>
+      <div class="section-tag">TRAVEL TIPS</div>
+      <div class="section-title">骗局与注意事项</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <strong>金字塔：</strong>骆驼/马车报价1美元、50埃镑，结束变100美元+。上车前说死总价，录音录像。<br><br>
+    <strong>卢克索：</strong>假向导、拍照罚款、马车不打表、帆船加价。全程 All inclusive, total price only。<br><br>
+    <strong>博物馆：</strong>帮忙买票收小费、拍照收费、一起拍照的也不要。<br><br>
+    <strong>集市：</strong>强塞香料说“小礼物”，转头要钱。买东西2折起步，3折成交。
+  </div>
+
+  <div class="tip-box" style="background: #EFF6FF; border-color: #3B82F6; color: #1E3A8A;">
+    <strong>租车提醒：</strong>全险未买！尽快确认。取车录详细视频，还车前洗车加油。减速带20-30码过，注意小面包车。别去机场租还车，限速注意。
+  </div>
+</section>
+
+<!-- Todo -->
+<section class="section" id="todo">
+  <div class="section-head">
+    <div>
+      <div class="section-tag">TODO</div>
+      <div class="section-title">门票待办</div>
+    </div>
+  </div>
+  <div class="list-item">
+    <span>吉萨金字塔</span>
+    <span class="status">未购买</span>
+  </div>
+  <div class="list-item">
+    <span>卡纳克神庙</span>
+    <span class="status">未购买</span>
+  </div>
+  <div class="list-item">
+    <span>帝王谷 + 哈布城</span>
+    <span class="status">未购买</span>
+  </div>
+  <div class="list-item">
+    <span>大埃及博物馆（新馆）</span>
+    <span class="status">未购买</span>
+  </div>
+  <div class="list-item">
+    <span>租车全险</span>
+    <span class="status">未购买</span>
+  </div>
+</section>
+
+<!-- 旅行前准备 -->
+<section class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-tag">PREPARE</div>
+      <div class="section-title">旅行前准备</div>
+    </div>
+  </div>
+  <div class="prep-list" id="prepList">
+    <div class="prep-item">
+      <input type="checkbox" onchange="togglePrep(this)">
+      <span>订酒店</span>
+      <span class="del" onclick="deletePrep(this)">删除</span>
+    </div>
+    <div class="prep-item">
+      <input type="checkbox" onchange="togglePrep(this)">
+      <span>租车全险</span>
+      <span class="del" onclick="deletePrep(this)">删除</span>
+    </div>
+    <div class="prep-item">
+      <input type="checkbox" onchange="togglePrep(this)">
+      <span>电子签证</span>
+      <span class="del" onclick="deletePrep(this)">删除</span>
+    </div>
+    <div class="prep-item">
+      <input type="checkbox" onchange="togglePrep(this)">
+      <span>国际驾照翻译件</span>
+      <span class="del" onclick="deletePrep(this)">删除</span>
+    </div>
+    <div class="prep-item">
+      <input type="checkbox" onchange="togglePrep(this)">
+      <span>景区门票</span>
+      <span class="del" onclick="deletePrep(this)">删除</span>
+    </div>
+  </div>
+  <div class="prep-add">
+    <input type="text" id="prepInput" placeholder="添加准备事项...">
+    <button onclick="addPrep()">添加</button>
+  </div>
+</section>
+
+<!-- 伴手礼 -->
+<section class="section" id="souvenir">
+  <div class="section-head">
+    <div>
+      <div class="section-tag">SOUVENIR</div>
+      <div class="section-title">伴手礼</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(event, 'souvenir-xiaoji')">小鸡</div>
+    <div class="tab" onclick="switchTab(event, 'souvenir-xiaohe')">小河</div>
+  </div>
+
+  <div id="souvenir-xiaoji" class="tab-panel active">
+    <div class="prep-list" id="xiaojiList">
+      <div class="prep-item">
+        <input type="checkbox" onchange="togglePrep(this)">
+        <span>沙草纸书签</span>
+        <span class="del" onclick="deletePrep(this)">删除</span>
+      </div>
+      <div class="prep-item">
+        <input type="checkbox" onchange="togglePrep(this)">
+        <span>冰箱贴</span>
+        <span class="del" onclick="deletePrep(this)">删除</span>
+      </div>
+    </div>
+    <div class="prep-add">
+      <input type="text" id="xiaojiInput" placeholder="添加小鸡的伴手礼...">
+      <button onclick="addSouvenir('xiaojiList', 'xiaojiInput')">添加</button>
+    </div>
+  </div>
+
+  <div id="souvenir-xiaohe" class="tab-panel">
+    <div class="prep-list" id="xiaoheList">
+      <div class="prep-item">
+        <input type="checkbox" onchange="togglePrep(this)">
+        <span>Nillens六件套</span>
+        <span class="del" onclick="deletePrep(this)">删除</span>
+      </div>
+      <div class="prep-item">
+        <input type="checkbox" onchange="togglePrep(this)">
+        <span>Vatika蜂蜜鸡蛋发膜</span>
+        <span class="del" onclick="deletePrep(this)">删除</span>
+      </div>
+    </div>
+    <div class="prep-add">
+      <input type="text" id="xiaoheInput" placeholder="添加小河的伴手礼...">
+      <button onclick="addSouvenir('xiaoheList', 'xiaoheInput')">添加</button>
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  埃及旅行计划 · 2026.10.18-10.23 · 2人自驾
+</div>
+
+<!-- 回到顶部 -->
+<div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+  // 1. 每日行程折叠
+  function toggleDay(el) {
+    el.classList.toggle('open');
+  }
+
+  // 2. 购票勾选更新徽章
+  function updateTicketBadge(day) {
+    const checkboxes = document.querySelectorAll(`.ticket-toggle[data-day="${day}"]`);
+    const badge = document.getElementById(`ticket-badge-${day}`);
+    if (!badge) return;
+    let total = checkboxes.length;
+    let checked = 0;
+    checkboxes.forEach(cb => { if (cb.checked) checked++; });
+    let remaining = total - checked;
+    if (remaining > 0) {
+      badge.textContent = `${remaining}项待购票`;
+      badge.classList.remove('done');
+    } else {
+      badge.textContent = `门票已准备`;
+      badge.classList.add('done');
+    }
+  }
+
+  // 3. 选项卡
+  function switchTab(event, panelId) {
+    const tab = event.currentTarget;
+    const parent = tab.parentElement;
+    parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const panels = parent.parentElement.querySelectorAll('.tab-panel');
+    panels.forEach(p => p.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+  }
+
+  // 4. 准备事项勾选（完成后下移）
+  function togglePrep(checkbox) {
+    const item = checkbox.closest('.prep-item');
+    const span = item.querySelector('span');
+    if (checkbox.checked) {
+      span.classList.add('done');
+      // 下移到末尾
+      const list = item.parentElement;
+      list.appendChild(item);
+    } else {
+      span.classList.remove('done');
+      // 上移回未完成区域（放到第一个已完成项之前）
+      const list = item.parentElement;
+      const firstDone = list.querySelector('.prep-item input:checked');
+      if (firstDone) {
+        const firstDoneItem = firstDone.closest('.prep-item');
+        list.insertBefore(item, firstDoneItem);
+      }
+    }
+  }
+
+  // 5. 删除准备事项
+  function deletePrep(el) {
+    el.closest('.prep-item').remove();
+  }
+
+  // 6. 添加准备事项
+  function addPrep() {
+    const input = document.getElementById('prepInput');
+    const val = input.value.trim();
+    if (!val) return;
+    const list = document.getElementById('prepList');
+    const div = document.createElement('div');
+    div.className = 'prep-item';
+    div.innerHTML = `
+      <input type="checkbox" onchange="togglePrep(this)">
+      <span>${val}</span>
+      <span class="del" onclick="deletePrep(this)">删除</span>
+    `;
+    list.appendChild(div);
+    input.value = '';
+  }
+
+  // 7. 添加伴手礼
+  function addSouvenir(listId, inputId) {
+    const input = document.getElementById(inputId);
+    const val = input.value.trim();
+    if (!val) return;
+    const list = document.getElementById(listId);
+    const div = document.createElement('div');
+    div.className = 'prep-item';
+    div.innerHTML = `
+      <input type="checkbox" onchange="togglePrep(this)">
+      <span>${val}</span>
+      <span class="del" onclick="deletePrep(this)">删除</span>
+    `;
+    list.appendChild(div);
+    input.value = '';
+  }
+
+  // 8. 倒计时
+  function updateCountdown() {
+    const target = new Date('2026-10-18T02:30:00+08:00').getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
+    const el = document.getElementById('countdown');
+    if (!el) return;
+    if (diff <= 0) {
+      el.innerHTML = '已起飞 ✈️';
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    el.innerHTML = `距离起飞还有：<strong>${days}天 ${hours}小时 ${minutes}分</strong>`;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+
+  // 9. 回到顶部显示/隐藏
+  window.addEventListener('scroll', function() {
+    const btn = document.getElementById('backTop');
+    if (window.scrollY > 300) {
+      btn.style.display = 'flex';
+    } else {
+      btn.style.display = 'none';
+    }
+  });
+
+  // 初始化购票徽章
+  window.addEventListener('load', function() {
+    for (let i = 1; i <= 6; i++) updateTicketBadge(i);
+  });
+</script>
+
+</body>
+</html>
