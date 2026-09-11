@@ -181,24 +181,102 @@
   }
   .countdown strong { color: #FBBF24; font-size: 14px; }
 
-  /* 地图 */
-  .map-box {
-    background: var(--card-bg);
-    border-radius: 12px;
+  /* 行程总览地图卡片 */
+  .map-card {
+    background: #EFE6D3;
+    border-radius: 16px;
     padding: 16px;
-    border: 1px solid var(--border);
-    text-align: center;
+    border: 1px solid #D9C9A8;
+    position: relative;
+    overflow: hidden;
   }
-  .map-box svg {
+  .map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .map-header .left .cn {
+    font-size: 20px;
+    font-weight: 700;
+    color: #5B3A1A;
+    letter-spacing: 1px;
+  }
+  .map-header .left .en {
+    font-size: 11px;
+    color: #8C6D4A;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .map-header .right {
+    font-size: 11px;
+    color: #8C6D4A;
+    text-align: right;
+    line-height: 1.5;
+  }
+  .map-wrap {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+  }
+  .map-wrap img {
+    display: block;
     width: 100%;
     height: auto;
-    display: block;
-    border-radius: 8px;
   }
-  .map-box .map-desc {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 8px;
+  .map-fullscreen-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background: rgba(28, 42, 58, 0.85);
+    color: #fff;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .map-fullscreen-btn:active { opacity: 0.7; }
+
+  /* 全屏地图遮罩 */
+  .map-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .map-modal.show { display: flex; }
+  .map-modal img {
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+  .map-modal .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
   }
 
   /* 租车卡片 */
@@ -501,6 +579,7 @@
   <div class="nav-brand">EG / 2026</div>
   <div class="nav-links">
     <a href="#flights">航班</a>
+    <a href="#overview">总览</a>
     <a href="#itinerary">行程</a>
     <a href="#rental">自驾</a>
     <a href="#tips">Tips</a>
@@ -578,34 +657,38 @@
       <div class="countdown" id="countdown-return">距离起飞还有：<strong>--</strong></div>
     </div>
   </div>
+</section>
 
-  <!-- 地图 -->
-  <div class="map-box" style="margin-top:12px;">
-    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-      <rect width="400" height="300" fill="#F8F9FA"/>
-      <!-- 埃及轮廓示意 -->
-      <path d="M120 40 L280 40 L300 80 L300 220 L260 260 L140 260 L100 220 L100 80 Z" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="2"/>
-      <!-- 尼罗河 -->
-      <path d="M200 50 Q210 120 200 180 Q190 230 200 260" fill="none" stroke="#93C5FD" stroke-width="4"/>
-      <!-- 路线 -->
-      <circle cx="200" cy="90" r="10" fill="#0D9488"/>
-      <text x="200" y="95" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">1</text>
-      <text x="230" y="95" fill="#1E293B" font-size="12">开罗</text>
+<!-- 行程总览 -->
+<section class="section" id="overview">
+  <div class="section-head">
+    <div>
+      <div class="section-tag">OVERVIEW</div>
+      <div class="section-title">行程总览</div>
+    </div>
+  </div>
 
-      <circle cx="220" cy="180" r="10" fill="#0D9488"/>
-      <text x="220" y="185" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">2</text>
-      <text x="250" y="185" fill="#1E293B" font-size="12">卢克索</text>
+  <div class="map-card">
+    <div class="map-header">
+      <div class="left">
+        <div class="cn">埃及 · 自驾路线</div>
+        <div class="en">Egypt Travel Overview</div>
+      </div>
+      <div class="right">
+        ① 开罗 → ② 卢克索<br>③ 赫尔格达 → 开罗
+      </div>
+    </div>
 
-      <circle cx="260" cy="220" r="10" fill="#0D9488"/>
-      <text x="260" y="225" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">3</text>
-      <text x="290" y="225" fill="#1E293B" font-size="12">赫尔格达</text>
+    <div class="map-wrap" onclick="openMapModal()">
+      <!-- 替换为你上传的图片，文件名需为 egypt-map.png -->
+      <img src="egypt-map.png" alt="埃及行程总览地图">
+      <button class="map-fullscreen-btn" onclick="event.stopPropagation(); openMapModal();">⛶ 点按全屏查看</button>
+    </div>
 
-      <!-- 路线连线 -->
-      <line x1="200" y1="90" x2="220" y2="180" stroke="#0D9488" stroke-width="2" stroke-dasharray="6,4"/>
-      <line x1="220" y1="180" x2="260" y2="220" stroke="#0D9488" stroke-width="2" stroke-dasharray="6,4"/>
-      <line x1="260" y1="220" x2="200" y2="90" stroke="#0D9488" stroke-width="2" stroke-dasharray="6,4" opacity="0.4"/>
-    </svg>
-    <div class="map-desc">① 开罗 → ② 卢克索 → ③ 赫尔格达 → 开罗</div>
+    <div style="font-size:11px;color:#8C6D4A;margin-top:10px;line-height:1.6;">
+      🚗 自驾路线：Cairo → Luxor → Hurghada → Cairo<br>
+      总里程约 1440 公里，总驾驶约 19 小时
+    </div>
   </div>
 </section>
 
@@ -1125,21 +1208,25 @@
   埃及旅行计划 · 2026.10.18-10.23 · 2人自驾
 </div>
 
+<!-- 全屏地图遮罩 -->
+<div class="map-modal" id="mapModal" onclick="closeMapModal()">
+  <div class="close" onclick="closeMapModal()">✕</div>
+  <img src="egypt-map.png" alt="埃及行程总览地图" onclick="event.stopPropagation()">
+</div>
+
 <!-- 回到顶部 -->
 <div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
 
 <script>
-  // 1. 每日行程：点击切换，打开一个时关闭其他
+  // 1. 每日行程折叠
   function toggleDay(headerEl) {
     const card = headerEl.closest('.day-card');
     const isOpen = card.classList.contains('open');
-    // 先关闭所有
     document.querySelectorAll('.day-card').forEach(c => c.classList.remove('open'));
-    // 如果之前是关的，就打开它
     if (!isOpen) card.classList.add('open');
   }
 
-  // 2. 购票勾选更新徽章（不触发折叠）
+  // 2. 购票勾选更新徽章
   function updateTicketBadge(day) {
     const checkboxes = document.querySelectorAll(`.ticket-toggle[data-day="${day}"]`);
     const badge = document.getElementById(`ticket-badge-${day}`);
@@ -1168,7 +1255,7 @@
     document.getElementById(panelId).classList.add('active');
   }
 
-  // 4. 准备事项勾选（完成后下移）
+  // 4. 准备事项勾选
   function togglePrep(checkbox) {
     const item = checkbox.closest('.prep-item');
     const span = item.querySelector('span');
@@ -1216,7 +1303,15 @@
     input.value = '';
   }
 
-  // 8. 倒计时（去程 + 返程）
+  // 8. 倒计时（精确到秒）
+  function formatCountdown(diff) {
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+    return `${d}天 ${h}小时 ${m}分 ${s}秒`;
+  }
+
   function updateCountdown() {
     const now = new Date().getTime();
 
@@ -1225,41 +1320,36 @@
     const depEl = document.getElementById('countdown-depart');
     const depDiff = depTarget - now;
     if (depEl) {
-      if (depDiff <= 0) {
-        depEl.innerHTML = '已起飞 ✈️';
-      } else {
-        const d = Math.floor(depDiff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((depDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((depDiff % (1000 * 60 * 60)) / (1000 * 60));
-        depEl.innerHTML = `距离起飞还有：<strong>${d}天 ${h}小时 ${m}分</strong>`;
-      }
+      depEl.innerHTML = depDiff <= 0 ? '已起飞 ✈️' : `距离起飞还有：<strong>${formatCountdown(depDiff)}</strong>`;
     }
 
-    // 返程：埃及当地时间 2026-10-23 14:15，埃及比北京慢6小时，即北京时间 2026-10-23 20:15
+    // 返程：埃及当地时间 2026-10-23 14:15，即北京时间 2026-10-23 20:15
     const retTarget = new Date('2026-10-23T20:15:00+08:00').getTime();
     const retEl = document.getElementById('countdown-return');
     const retDiff = retTarget - now;
     if (retEl) {
-      if (retDiff <= 0) {
-        retEl.innerHTML = '已起飞 ✈️';
-      } else {
-        const d = Math.floor(retDiff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((retDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((retDiff % (1000 * 60 * 60)) / (1000 * 60));
-        retEl.innerHTML = `距离起飞还有：<strong>${d}天 ${h}小时 ${m}分</strong>`;
-      }
+      retEl.innerHTML = retDiff <= 0 ? '已起飞 ✈️' : `距离起飞还有：<strong>${formatCountdown(retDiff)}</strong>`;
     }
   }
   updateCountdown();
-  setInterval(updateCountdown, 60000);
+  setInterval(updateCountdown, 1000);
 
-  // 9. 回到顶部
+  // 9. 地图全屏
+  function openMapModal() {
+    document.getElementById('mapModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMapModal() {
+    document.getElementById('mapModal').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  // 10. 回到顶部
   window.addEventListener('scroll', function() {
     const btn = document.getElementById('backTop');
     btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
   });
 
-  // 初始化购票徽章
   window.addEventListener('load', function() {
     for (let i = 1; i <= 6; i++) updateTicketBadge(i);
   });
