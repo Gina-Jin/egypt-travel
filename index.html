@@ -514,9 +514,8 @@
 /* =========================================================
    配置区（请替换为你自己的值）
    ========================================================= */
-const JSONBIN_API_KEY = '$2a$10$CdzpvzhH.nHo0xm9HPXi1OwqCyDpcU0MCkEVB5Ha77.oxNcrWe4Ou';   // 替换这里
-const JSONBIN_BIN_ID = '6aa4a844ac6210605ac2f172';           // 替换这里
-const JSONBIN_BASE = 'https://api.jsonbin.io/v3/b';
+const SUPABASE_URL = 'https://ciwofaaseorheotftsxq.supabase.co';        // 替换这里
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpd29mYWFzZW9yaGVvdGZ0c3hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxNTYzNTIsImV4cCI6MjEwNDczMjM1Mn0.20kYNw2hdZnNR82qtFTe2fpr_IRPSOMPP10GELENUMo'; // 替换这里
 
 /* =========================================================
    数据状态
@@ -553,7 +552,6 @@ const defaultState = {
   }
 };
 
-// 本地缓存（防止网络抖动）
 function loadLocal() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -565,22 +563,21 @@ function saveLocal(data) {
 }
 
 let state = loadLocal() || JSON.parse(JSON.stringify(defaultState));
-let isSyncing = false;
 
 /* =========================================================
-   JSONBin 同步核心
+   Supabase 同步核心
    ========================================================= */
 async function fetchFromCloud() {
-  if (isSyncing) return;
   try {
-    const res = await fetch(`${JSONBIN_BASE}/${JSONBIN_BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': JSONBIN_API_KEY }
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/trip_data?id=eq.1&select=content`, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+      }
     });
     const json = await res.json();
-    if (json.record) {
-      // 合并：以云端为准，但保留本地自定义门票（如果有）
-      const cloud = json.record;
-      // 简单合并策略：云端数据覆盖本地
+    if (json && json[0] && json[0].content && Object.keys(json[0].content).length > 0) {
+      const cloud = json[0].content;
       state = { ...JSON.parse(JSON.stringify(defaultState)), ...cloud };
       saveLocal(state);
       renderAll();
@@ -592,27 +589,28 @@ async function fetchFromCloud() {
 
 async function pushToCloud() {
   try {
-    await fetch(`${JSONBIN_BASE}/${JSONBIN_BIN_ID}`, {
-      method: 'PUT',
+    await fetch(`${SUPABASE_URL}/rest/v1/trip_data?id=eq.1`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_API_KEY
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Prefer': 'return=minimal'
       },
-      body: JSON.stringify(state)
+      body: JSON.stringify({ content: state })
     });
   } catch (e) {
-    console.warn('云端推送失败，稍后会重试', e);
+    console.warn('云端推送失败', e);
   }
 }
 
-/* 操作后统一调用：保存本地 + 推送云端 */
 function commit() {
   saveLocal(state);
   pushToCloud();
 }
 
 /* =========================================================
-   渲染逻辑（与之前一致，仅将 saveState 替换为 commit）
+   渲染逻辑（与之前一致）
    ========================================================= */
 function uid() { return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); }
 function $(sel) { return document.querySelector(sel); }
@@ -852,7 +850,6 @@ window.addEventListener('scroll', () => {
   if (btn) btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
 });
 
-/* 统一渲染入口 */
 function renderAll() {
   refreshTicketUI();
   renderPrep();
@@ -870,7 +867,6 @@ window.addEventListener('load', () => {
 
   // 每 10 秒从云端拉取一次
   setInterval(fetchFromCloud, 10000);
-  // 页面打开时立即拉一次
   fetchFromCloud();
 });
 </script>
