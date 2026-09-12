@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>埃及旅行计划 · 2026.10.18-10.23</title>
 <style>
+  html { scroll-behavior: smooth; }
   :root {
     --bg:#F8F9FA; --card-bg:#FFFFFF; --dark-card:#1C2A3A;
     --text-main:#1E293B; --text-muted:#64748B;
@@ -12,9 +13,8 @@
     --border:#E2E8F0; --warn-bg:#FFF7ED; --warn-text:#C2410C;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth;
   body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif; background:var(--bg); color:var(--text-main); line-height:1.6; padding-bottom:40px; -webkit-font-smoothing:antialiased; }
- }   
+
   .nav { position:sticky; top:0; background:rgba(248,249,250,.95); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--border); z-index:100; display:flex; justify-content:space-between; align-items:center; padding:12px 20px; overflow-x:auto; white-space:nowrap; }
   .nav-brand { font-size:12px; font-weight:600; color:var(--text-muted); letter-spacing:1px; }
   .nav-links { display:flex; gap:14px; }
@@ -93,8 +93,8 @@
   .day-header .ticket-badge.done { background:#DCFCE7; color:#166534; }
   .day-header .arrow { font-size:12px; color:var(--text-muted); transition:transform .2s; }
   .day-card.open .day-header .arrow { transform:rotate(180deg); }
-  .day- { display:none; margin-top:16px; padding-top:12px; border-top:1px solid var(--border); }
-  .day-card.open .day- { display:block; }
+  .day-body { display:none; margin-top:16px; padding-top:12px; border-top:1px solid var(--border); }
+  .day-card.open .day-body { display:block; }
 
   .timeline { position:relative; padding-left:16px; }
   .timeline::before { content:''; position:absolute; left:3px; top:6px; bottom:6px; width:2px; background:var(--border); }
@@ -248,7 +248,7 @@
         </div>
         <div class="timeline-item"><div class="time">傍晚</div><div class="content"><div class="title">Citystars 逛逛</div><div class="desc">为取车预留时间</div></div></div>
         <div class="timeline-item"><div class="time">晚餐</div><div class="content"><div class="title">你说晚上吃啥我再更新</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Citystars+Mall+Cairo" target="_blank">📍 Citystars Mall</a></div></div>
-        <div class="timeline-item"><div class="time">21:00</div><div class="content"><div class="title">取车</div><div class="desc">Citystars Mall · Geely GX3 pro</div><a class="map-link" href="#rental" target="_blank">⚠️ 去看取车注意事项</a></div></div>
+        <div class="timeline-item"><div class="time">21:00</div><div class="content"><div class="title">取车</div><div class="desc">Citystars Mall · Geely GX3 pro</div><a class="map-link" href="#rental">⚠️ 去看取车注意事项</a></div></div>
         <div class="timeline-item"><div class="time">22:00</div><div class="content"><div class="title">回酒店</div><div class="desc">洗香香睡觉，明天要开长途咯，面包、香肠、零食和水别忘了买</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Parkside+Boutique+Serviced+Apartments" target="_blank">📍 Parkside Boutique Serviced Apartments</a></div></div>
       </div>
     </div>
@@ -473,7 +473,7 @@
     <input type="text" id="todoInput" placeholder="添加自定义门票/事项...">
     <button onclick="addTodo()">添加</button>
   </div>
-  <div class="sync-hint">✅ 数据自动保存在本机，关闭页面后重新打开依然保留</div>
+  <div class="sync-hint">✅ 数据实时同步到云端，关闭页面后重新打开依然保留</div>
 </section>
 
 <!-- 旅行前准备 -->
@@ -526,10 +526,10 @@
 
 <script>
 /* =========================================================
-   配置区（请替换为你自己的值）
+   配置区
    ========================================================= */
-const SUPABASE_URL = 'https://ciwofaaseorheotftsxq.supabase.co';        // 替换这里
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpd29mYWFzZW9yaGVvdGZ0c3hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxNTYzNTIsImV4cCI6MjEwNDczMjM1Mn0.20kYNw2hdZnNR82qtFTe2fpr_IRPSOMPP10GELENUMo'; // 替换这里
+const SUPABASE_URL = 'https://ciwofaaseorheotftsxq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpd29mYWFzZW9yaGVvdGZ0c3hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxNTYzNTIsImV4cCI6MjEwNDczMjM1Mn0.20kYNw2hdZnNR82qtFTe2fpr_IRPSOMPP10GELENUMo';
 
 /* =========================================================
    数据状态
@@ -538,14 +538,14 @@ const STORAGE_KEY = 'egypt-trip-2026-state';
 
 const defaultState = {
   tickets: {
-    'giza':      { name: '吉萨金字塔',   day: 1, checked: false },
-    'karnak':    { name: '卡纳克神庙',   day: 2, checked: false },
-    'felucca':   { name: '尼罗河帆船',   day: 2, checked: false },
-    'luxor-temple':{ name: '卢克索神庙',   day: 2, checked: false }, 
-    'valley':    { name: '帝王谷',       day: 3, checked: false },
-    'habu':      { name: '哈布城',       day: 3, checked: false },
-    'snorkeling':{ name: '出海浮潜',     day: 4, checked: false },
-    'gem':       { name: '大埃及博物馆', day: 5, checked: false }
+    'giza':        { name: '吉萨金字塔',   day: 1, checked: false },
+    'karnak':      { name: '卡纳克神庙',   day: 2, checked: false },
+    'felucca':     { name: '尼罗河帆船',   day: 2, checked: false },
+    'luxor-temple':{ name: '卢克索神庙',   day: 2, checked: false },
+    'valley':      { name: '帝王谷',       day: 3, checked: false },
+    'habu':        { name: '哈布城',       day: 3, checked: false },
+    'snorkeling':  { name: '出海浮潜',     day: 4, checked: false },
+    'gem':         { name: '大埃及博物馆', day: 5, checked: false }
   },
   customTickets: [],
   prep: [
@@ -580,7 +580,7 @@ function saveLocal(data) {
 let state = loadLocal() || JSON.parse(JSON.stringify(defaultState));
 
 /* =========================================================
-   Supabase 同步核心
+   Supabase 同步
    ========================================================= */
 async function fetchFromCloud() {
   try {
@@ -593,12 +593,18 @@ async function fetchFromCloud() {
     const json = await res.json();
     if (json && json[0] && json[0].content && Object.keys(json[0].content).length > 0) {
       const cloud = json[0].content;
-      state = { ...JSON.parse(JSON.stringify(defaultState)), ...cloud };
+      const merged = { ...JSON.parse(JSON.stringify(defaultState)), ...cloud };
+      // 补全默认 tickets 里云端缺失的 key
+      if (!merged.tickets) merged.tickets = {};
+      Object.keys(defaultState.tickets).forEach(k => {
+        if (!merged.tickets[k]) merged.tickets[k] = { ...defaultState.tickets[k] };
+      });
+      state = merged;
       saveLocal(state);
       renderAll();
     }
   } catch (e) {
-    console.warn('云端拉取失败，使用本地数据', e);
+    console.warn('云端拉取失败', e);
   }
 }
 
@@ -625,7 +631,7 @@ function commit() {
 }
 
 /* =========================================================
-   渲染逻辑（与之前一致）
+   通用
    ========================================================= */
 function uid() { return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); }
 function $(sel) { return document.querySelector(sel); }
@@ -638,6 +644,9 @@ function toggleDay(headerEl) {
   if (!isOpen) card.classList.add('open');
 }
 
+/* =========================================================
+   门票 UI
+   ========================================================= */
 function refreshTicketUI() {
   $$('.ticket-toggle').forEach(cb => {
     const id = cb.dataset.ticketId;
@@ -674,7 +683,6 @@ function renderTodoList() {
   if (!list) return;
   list.innerHTML = '';
 
-  // 收集所有门票（系统 + 自定义），带排序字段
   const allTickets = [];
   Object.keys(state.tickets).forEach(id => {
     const t = state.tickets[id];
@@ -684,13 +692,11 @@ function renderTodoList() {
     allTickets.push({ id: t.id, name: t.name, day: t.day || 99, checked: t.checked, custom: true });
   });
 
-  // 按 Day 升序排序，同 Day 内按名称排
   allTickets.sort((a, b) => {
     if (a.day !== b.day) return a.day - b.day;
     return a.name.localeCompare(b.name, 'zh');
   });
 
-  // 按 Day 分组渲染，带小标题
   let currentDay = null;
   allTickets.forEach(t => {
     if (t.day !== currentDay) {
@@ -760,6 +766,9 @@ function bindTicketToggles() {
   });
 }
 
+/* =========================================================
+   选项卡
+   ========================================================= */
 function switchTab(event, panelId) {
   const tab = event.currentTarget;
   const parent = tab.parentElement;
@@ -770,6 +779,9 @@ function switchTab(event, panelId) {
   document.getElementById(panelId).classList.add('active');
 }
 
+/* =========================================================
+   旅行前准备
+   ========================================================= */
 function renderPrep() {
   const list = document.getElementById('prepList');
   if (!list) return;
@@ -807,6 +819,9 @@ function addPrep() {
   renderPrep();
 }
 
+/* =========================================================
+   伴手礼
+   ========================================================= */
 function renderSouvenir() {
   ['xiaoji','xiaohe'].forEach(key => {
     const list = document.getElementById(key + 'List');
@@ -846,6 +861,9 @@ function addSouvenir(key, inputId) {
   renderSouvenir();
 }
 
+/* =========================================================
+   倒计时
+   ========================================================= */
 function formatCountdown(diff) {
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
@@ -869,6 +887,9 @@ function updateCountdown() {
   }
 }
 
+/* =========================================================
+   地图全屏
+   ========================================================= */
 function openMapModal() {
   document.getElementById('mapModal').classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -878,6 +899,9 @@ function closeMapModal() {
   document.body.style.overflow = '';
 }
 
+/* =========================================================
+   回到顶部
+   ========================================================= */
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('backTop');
   if (btn) btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
@@ -893,22 +917,11 @@ function renderAll() {
    初始化
    ========================================================= */
 window.addEventListener('load', () => {
-    // 导航平滑滚动
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
   bindTicketToggles();
   renderAll();
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // 每 10 秒从云端拉取一次
   setInterval(fetchFromCloud, 10000);
   fetchFromCloud();
 });
