@@ -12,8 +12,9 @@
     --border:#E2E8F0; --warn-bg:#FFF7ED; --warn-text:#C2410C;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth;
   body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif; background:var(--bg); color:var(--text-main); line-height:1.6; padding-bottom:40px; -webkit-font-smoothing:antialiased; }
-
+ }   
   .nav { position:sticky; top:0; background:rgba(248,249,250,.95); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--border); z-index:100; display:flex; justify-content:space-between; align-items:center; padding:12px 20px; overflow-x:auto; white-space:nowrap; }
   .nav-brand { font-size:12px; font-weight:600; color:var(--text-muted); letter-spacing:1px; }
   .nav-links { display:flex; gap:14px; }
@@ -92,8 +93,8 @@
   .day-header .ticket-badge.done { background:#DCFCE7; color:#166534; }
   .day-header .arrow { font-size:12px; color:var(--text-muted); transition:transform .2s; }
   .day-card.open .day-header .arrow { transform:rotate(180deg); }
-  .day-body { display:none; margin-top:16px; padding-top:12px; border-top:1px solid var(--border); }
-  .day-card.open .day-body { display:block; }
+  .day- { display:none; margin-top:16px; padding-top:12px; border-top:1px solid var(--border); }
+  .day-card.open .day- { display:block; }
 
   .timeline { position:relative; padding-left:16px; }
   .timeline::before { content:''; position:absolute; left:3px; top:6px; bottom:6px; width:2px; background:var(--border); }
@@ -291,7 +292,7 @@
             <div class="desc">神庙营业到21点，门票500埃镑，集市在22点陆续关门</div>
             <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Luxor+Temple" target="_blank">📍 卢克索神庙</a>
             <div class="ticket-check">
-              <input type="checkbox" class="ticket-toggle" data-ticket-id="felucca" data-ticket-name="卢克索神庙" data-day="2"> 已购票 卢克索神庙
+              <input type="checkbox" class="ticket-toggle" data-ticket-id="luxor-temple" data-ticket-name="卢克索神庙" data-day="2"> 已购票 卢克索神庙
             </div>
           </div>
         </div>
@@ -540,6 +541,7 @@ const defaultState = {
     'giza':      { name: '吉萨金字塔',   day: 1, checked: false },
     'karnak':    { name: '卡纳克神庙',   day: 2, checked: false },
     'felucca':   { name: '尼罗河帆船',   day: 2, checked: false },
+    'luxor-temple':{ name: '卢克索神庙',   day: 2, checked: false }, 
     'valley':    { name: '帝王谷',       day: 3, checked: false },
     'habu':      { name: '哈布城',       day: 3, checked: false },
     'snorkeling':{ name: '出海浮潜',     day: 4, checked: false },
@@ -672,26 +674,33 @@ function renderTodoList() {
   if (!list) return;
   list.innerHTML = '';
 
+  // 收集所有门票（系统 + 自定义），带排序字段
+  const allTickets = [];
   Object.keys(state.tickets).forEach(id => {
     const t = state.tickets[id];
-    const div = document.createElement('div');
-    div.className = 'list-item';
-    div.innerHTML = `
-      <div class="left">
-        <input type="checkbox" ${t.checked ? 'checked' : ''} data-ticket-id="${id}">
-        <span style="${t.checked ? 'text-decoration:line-through;color:#94A3B8;' : ''}">${t.name} · Day ${t.day}</span>
-      </div>
-      <span class="status ${t.checked ? 'done' : ''}">${t.checked ? '已购买' : '未购买'}</span>
-    `;
-    div.querySelector('input').addEventListener('change', e => {
-      state.tickets[id].checked = e.target.checked;
-      commit();
-      refreshTicketUI();
-    });
-    list.appendChild(div);
+    allTickets.push({ id, name: t.name, day: t.day, checked: t.checked, custom: false });
+  });
+  state.customTickets.forEach(t => {
+    allTickets.push({ id: t.id, name: t.name, day: t.day || 99, checked: t.checked, custom: true });
   });
 
-  state.customTickets.forEach(t => {
+  // 按 Day 升序排序，同 Day 内按名称排
+  allTickets.sort((a, b) => {
+    if (a.day !== b.day) return a.day - b.day;
+    return a.name.localeCompare(b.name, 'zh');
+  });
+
+  // 按 Day 分组渲染，带小标题
+  let currentDay = null;
+  allTickets.forEach(t => {
+    if (t.day !== currentDay) {
+      currentDay = t.day;
+      const header = document.createElement('div');
+      header.style.cssText = 'font-size:12px;font-weight:600;color:#0D9488;margin:14px 0 8px;padding-left:4px;';
+      header.textContent = t.day === 99 ? '📌 自定义' : `DAY ${t.day} · 10月${17 + t.day}日`;
+      list.appendChild(header);
+    }
+
     const div = document.createElement('div');
     div.className = 'list-item';
     div.innerHTML = `
@@ -700,20 +709,31 @@ function renderTodoList() {
         <span style="${t.checked ? 'text-decoration:line-through;color:#94A3B8;' : ''}">${t.name}</span>
       </div>
       <span class="status ${t.checked ? 'done' : ''}">${t.checked ? '已购买' : '未购买'}</span>
-      <span class="del">删除</span>
+      ${t.custom ? '<span class="del">删除</span>' : ''}
     `;
     div.querySelector('input').addEventListener('change', e => {
-      t.checked = e.target.checked;
+      if (t.custom) {
+        const item = state.customTickets.find(x => x.id === t.id);
+        if (item) item.checked = e.target.checked;
+      } else {
+        state.tickets[t.id].checked = e.target.checked;
+      }
       commit();
       refreshTicketUI();
     });
-    div.querySelector('.del').addEventListener('click', () => {
-      state.customTickets = state.customTickets.filter(x => x.id !== t.id);
-      commit();
-      refreshTicketUI();
-    });
+    if (t.custom) {
+      div.querySelector('.del').addEventListener('click', () => {
+        state.customTickets = state.customTickets.filter(x => x.id !== t.id);
+        commit();
+        refreshTicketUI();
+      });
+    }
     list.appendChild(div);
   });
+
+  if (allTickets.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:#94A3B8;font-size:13px;padding:20px;">暂无待购门票</div>';
+  }
 }
 
 function addTodo() {
@@ -873,6 +893,16 @@ function renderAll() {
    初始化
    ========================================================= */
 window.addEventListener('load', () => {
+    // 导航平滑滚动
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
   bindTicketToggles();
   renderAll();
   updateCountdown();
