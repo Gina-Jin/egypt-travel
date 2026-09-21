@@ -68,6 +68,7 @@
   .rental-card .car-name { font-size:20px; font-weight:700; margin-bottom:2px; }
   .rental-card .car-type { font-size:12px; color:#94A3B8; }
   .rental-card .badge-warn { background:#FEF3C7; color:#92400E; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; display:inline-block; }
+  .rental-card .badge-done { background:#DCFCE7; color:#166534; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; display:inline-block; }
   .rental-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #334155; font-size:13px; }
   .rental-row:last-child { border-bottom:none; padding-bottom:0; }
   .rental-row .label { color:#94A3B8; }
@@ -104,7 +105,7 @@
   .timeline-item .time { font-size:12px; color:var(--text-muted); margin-bottom:2px; }
   .timeline-item .content .title { font-weight:500; }
   .timeline-item .content .desc { font-size:12px; color:var(--text-muted); margin-top:2px; }
-  .timeline-item .content .map-link { display:inline-block; font-size:11px; color:var(--accent); text-decoration:none; margin-top:4px; background:var(--accent-light); padding:2px 8px; border-radius:4px; }
+  .timeline-item .content .map-link { display:inline-block; font-size:11px; color:var(--accent); text-decoration:none; margin-top:4px; background:var(--accent-light); padding:2px 8px; border-radius:4px; margin-right:6px; }
 
   .ticket-check { display:flex; align-items:center; gap:8px; margin-top:6px; font-size:12px; color:var(--text-muted); }
   .ticket-check input[type="checkbox"] { accent-color:var(--accent); width:14px; height:14px; }
@@ -122,12 +123,37 @@
   .list-item .status.done { background:#DCFCE7; color:#166534; }
   .list-item .del { font-size:12px; color:var(--warn-text); cursor:pointer; flex-shrink:0; }
 
+  /* 准备事项 / 伴手礼条目 */
   .prep-list { margin-bottom:12px; }
-  .prep-item { display:flex; align-items:center; gap:10px; background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:8px; font-size:13px; }
+  .prep-item { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:8px; font-size:13px; }
+  .prep-item .row { display:flex; align-items:center; gap:10px; }
   .prep-item input[type="checkbox"] { accent-color:var(--accent); width:16px; height:16px; flex-shrink:0; }
-  .prep-item span { flex:1; word-break:break-word; }
-  .prep-item span.done { text-decoration:line-through; color:var(--text-muted); }
-  .prep-item .del { font-size:12px; color:var(--warn-text); cursor:pointer; flex-shrink:0; }
+  .prep-item .text { flex:1; word-break:break-word; }
+  .prep-item .text.done { text-decoration:line-through; color:var(--text-muted); }
+  .prep-item .del { font-size:12px; color:var(--warn-text); cursor:pointer; flex-shrink:0; margin-left:auto; }
+  .prep-item .note-toggle { font-size:11px; color:#94A3B8; cursor:pointer; margin-top:6px; display:inline-block; }
+  .prep-item .note-box { display:none; margin-top:6px; }
+  .prep-item .note-box.show { display:block; }
+  .prep-item .note-box input { width:100%; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px; outline:none; background:#F8F9FA; }
+  .prep-item .note-text { font-size:12px; color:#64748B; margin-top:6px; font-style:italic; }
+
+  /* 伴手礼专属：左图右文 */
+  .souvenir-item { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:8px; }
+  .souvenir-item .top-row { display:flex; align-items:center; gap:12px; }
+  .souvenir-thumb { width:56px; height:56px; border-radius:10px; flex-shrink:0; background:#F1F5F9; display:flex; align-items:center; justify-content:center; font-size:22px; color:#94A3B8; cursor:pointer; overflow:hidden; border:1px dashed #CBD5E1; }
+  .souvenir-thumb img { width:100%; height:100%; object-fit:cover; }
+  .souvenir-info { flex:1; min-width:0; }
+  .souvenir-info .text { font-size:14px; word-break:break-word; }
+  .souvenir-info .text.done { text-decoration:line-through; color:var(--text-muted); }
+  .souvenir-item .note-toggle { font-size:11px; color:#94A3B8; cursor:pointer; margin-top:6px; display:inline-block; }
+  .souvenir-item .note-box { display:none; margin-top:6px; }
+  .souvenir-item .note-box.show { display:block; }
+  .souvenir-item .note-box input { width:100%; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px; outline:none; background:#F8F9FA; }
+  .souvenir-item .note-text { font-size:12px; color:#64748B; margin-top:6px; font-style:italic; }
+  .souvenir-actions { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+  .souvenir-actions input[type="checkbox"] { accent-color:var(--accent); width:16px; height:16px; }
+  .souvenir-actions .del { font-size:12px; color:var(--warn-text); cursor:pointer; }
+
   .prep-add { display:flex; gap:8px; margin-top:8px; }
   .prep-add input { flex:1; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:13px; outline:none; background:var(--card-bg); }
   .prep-add button { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:0 16px; font-size:13px; font-weight:500; cursor:pointer; }
@@ -135,6 +161,11 @@
   .back-top { position:fixed; right:20px; bottom:24px; width:44px; height:44px; border-radius:50%; background:var(--dark-card); color:#fff; display:none; align-items:center; justify-content:center; font-size:18px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.15); z-index:200; }
   .footer { text-align:center; font-size:11px; color:#94A3B8; margin-top:40px; padding:0 20px; }
   .sync-hint { font-size:11px; color:var(--text-muted); text-align:center; margin-top:8px; }
+
+  .img-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; padding:16px; }
+  .img-modal.show { display:flex; }
+  .img-modal img { max-width:100%; max-height:90vh; border-radius:12px; }
+  .img-modal .close { position:absolute; top:20px; right:20px; color:#fff; font-size:28px; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -233,6 +264,14 @@
         <div class="timeline-item"><div class="time">09:15</div><div class="content"><div class="title">落地开罗</div><div class="desc">入境卡、落地签、过关、换汇、电话卡</div></div></div>
         <div class="timeline-item"><div class="time">中午</div><div class="content"><div class="title">到酒店放行李</div><div class="desc">打车约30分钟 · 定位T3到达出口对面下楼</div></div></div>
         <div class="timeline-item">
+          <div class="time">午餐</div>
+          <div class="content">
+            <div class="title">Gambarino（海鲜餐）</div>
+            <div class="desc">١١ Al Mesaha, Ad Doqi A, Dokki, Giza Governorate 3750310</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Gambarino+Al+Mesaha+Dokki+Giza" target="_blank">📍 Gambarino</a>
+          </div>
+        </div>
+        <div class="timeline-item">
           <div class="time">下午</div>
           <div class="content">
             <div class="title">吉萨金字塔 + 骆驼</div>
@@ -247,9 +286,8 @@
           </div>
         </div>
         <div class="timeline-item"><div class="time">傍晚</div><div class="content"><div class="title">Citystars 逛逛</div><div class="desc">为取车预留时间</div></div></div>
-        <div class="timeline-item"><div class="time">晚餐</div><div class="content"><div class="title">你说晚上吃啥我再更新</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Citystars+Mall+Cairo" target="_blank">📍 Citystars Mall</a></div></div>
         <div class="timeline-item"><div class="time">21:00</div><div class="content"><div class="title">取车</div><div class="desc">Citystars Mall · Geely GX3 pro</div><a class="map-link" href="#rental">⚠️ 去看取车注意事项</a></div></div>
-        <div class="timeline-item"><div class="time">22:00</div><div class="content"><div class="title">回酒店</div><div class="desc">洗香香睡觉，明天要开长途咯，面包、香肠、零食和水别忘了买</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Parkside+Boutique+Serviced+Apartments" target="_blank">📍 Parkside Boutique Serviced Apartments</a></div></div>
+        <div class="timeline-item"><div class="time">22:00</div><div class="content"><div class="title">回酒店</div><div class="desc">洗香香睡觉，明天要开长途咯，面包、香肠、零食和水别忘了买</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Parkside+Boutique+Serviced+Apartments+Cairo" target="_blank">📍 Parkside Boutique Serviced Apartments</a></div></div>
       </div>
     </div>
   </div>
@@ -278,7 +316,7 @@
           <div class="time">17:00-19:00</div>
           <div class="content">
             <div class="title">尼罗河帆船</div>
-            <div class="desc">17点上船 · 通常500-600埃镑一小时，要给小费的，100埃镑够了</div>
+            <div class="desc">17点上船 · 通常300-500埃镑一小时，要给小费的，100埃镑够了</div>
             <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Nile+Felucca+Luxor" target="_blank">📍 尼罗河帆船</a>
             <div class="ticket-check">
               <input type="checkbox" class="ticket-toggle" data-ticket-id="felucca" data-ticket-name="尼罗河帆船" data-day="2"> 已购票 尼罗河帆船
@@ -294,6 +332,14 @@
             <div class="ticket-check">
               <input type="checkbox" class="ticket-toggle" data-ticket-id="luxor-temple" data-ticket-name="卢克索神庙" data-day="2"> 已购票 卢克索神庙
             </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">晚餐</div>
+          <div class="content">
+            <div class="title">Oriental House Restaurants</div>
+            <div class="desc">结束营业时间：23:30</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Oriental+House+Restaurants+Luxor" target="_blank">📍 Oriental House Restaurants</a>
           </div>
         </div>
       </div>
@@ -376,8 +422,24 @@
             </div>
           </div>
         </div>
-        <div class="timeline-item"><div class="time">晚上</div><div class="content"><div class="title">可选：Khan el-Khalili 老城集市</div><div class="desc">买东西2折起步 · 伴手礼</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Khan+el-Khalili" target="_blank">📍 Khan el-Khalili</a></div></div>
-        <div class="timeline-item"><div class="time">晚餐</div><div class="content"><div class="title">Gambarino 海鲜餐</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Gambarino+Cairo" target="_blank">📍 Gambarino</a></div></div>
+        <div class="timeline-item">
+          <div class="time">晚上</div>
+          <div class="content">
+            <div class="title">可选：Khan el-Khalili 老城集市 / Zamalek 岛 / Citystars Mall 补充伴手礼</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Khan+el-Khalili" target="_blank">📍 Khan el-Khalili</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Zamalek+Island+Cairo" target="_blank">📍 Zamalek 岛</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Citystars+Mall+Cairo" target="_blank">📍 Citystars Mall</a>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time">晚餐</div>
+          <div class="content">
+            <div class="title">本土炸鸡🍗</div>
+            <div class="desc">营业时间：11:00-04:00 · 根据位置二选一</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=El+Baraka+Fried+Chicken+Cairo" target="_blank">📍 El Baraka Fried Chicken</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=5+Roosters+Cairo" target="_blank">📍 5 Roosters</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -390,7 +452,15 @@
     </div>
     <div class="day-body">
       <div class="timeline">
-        <div class="timeline-item"><div class="time">上午</div><div class="content"><div class="title">逛商场</div><div class="desc">建议 Citystars 附近 · 买伴手礼</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Citystars+Mall+Cairo" target="_blank">📍 Citystars Mall</a></div></div>
+        <div class="timeline-item">
+          <div class="time">上午</div>
+          <div class="content">
+            <div class="title">可选：逛商场 / 萨拉丁城堡</div>
+            <div class="desc">萨拉丁城堡营业时间：8:00-17:00，成人票：550埃镑，建议长袖长裤或长裙</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Citystars+Mall+Cairo" target="_blank">📍 Citystars Mall</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Saladin+Citadel+Cairo" target="_blank">📍 萨拉丁城堡</a>
+          </div>
+        </div>
         <div class="timeline-item"><div class="time">10:30</div><div class="content"><div class="title">出发去机场</div><div class="desc">建议11:15前到 · 国际航班</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Cairo+International+Airport" target="_blank">📍 开罗机场</a></div></div>
         <div class="timeline-item"><div class="time">14:15</div><div class="content"><div class="title">CA830 起飞</div><div class="desc">北京 10.24 05:00 到达</div></div></div>
       </div>
@@ -406,11 +476,11 @@
   <div class="rental-card">
     <div class="title-row">
       <div><div class="car-name">Geely GX3 Pro</div><div class="car-type">1辆 · 2人 · 自动挡</div></div>
-      <span class="badge-warn">全险未买 ⚠️</span>
+      <span class="badge-done">全险已购 ✅</span>
     </div>
     <div class="rental-row"><span class="label">取车</span><span class="value">10.18 21:00<br>Citystars Mall</span></div>
     <div class="rental-row"><span class="label">还车</span><span class="value">10.22 17:00前<br>Citystars Mall</span></div>
-    <div class="rental-row"><span class="label">还车准备</span><span class="value">洗车 + 加油（Chillout）</span></div>
+    <div class="rental-row"><span class="label">还车准备</span><span class="value">Citystars 附近加油 + 地下车库洗车</span></div>
   </div>
   <div class="tabs">
     <div class="tab active" onclick="switchTab(event,'tab-pickup')">取车检查</div>
@@ -422,7 +492,7 @@
       <li>驾驶人年满26周岁，三证带齐：驾驶证、国际驾驶证翻译件、本人Visa/Master卡</li>
       <li><strong>360度无死角录制当前车况视频</strong>，包括划痕、内饰、油量、轮胎、玻璃</li>
       <li>确认租车公司认可哪种国际驾照：支付宝国际驾照翻译件 or IDP</li>
-      <li><strong>一定要买全险</strong></li>
+      <li>一定要买全险</li>
       <li><strong>取车时录的详细视频保留好，作为凭证</strong></li>
     </ul>
   </div>
@@ -439,8 +509,8 @@
   </div>
   <div id="tab-return" class="tab-panel">
     <ul>
-      <li>还车前加油洗车，油量和取车前一致</li>
-      <li>推荐 Chillout（洗车+加油+麦当劳），离机场近</li>
+      <li>Citystars Mall 附近有加油站，提前加好油，油量和取车前一致</li>
+      <li>商场地下车库就有洗车店，价格有浮动，提前问清楚价格再洗</li>
       <li>别去机场租车还车，机场坑多</li>
       <li>还车后拍摄位置、车况、油表和里程</li>
     </ul>
@@ -459,7 +529,7 @@
     <strong>集市：</strong>强塞香料说“小礼物”，转头要钱。买东西2折起步，3折成交。
   </div>
   <div class="tip-box" style="background:#EFF6FF;border-color:#3B82F6;color:#1E3A8A;">
-    <strong>租车提醒：</strong>全险未买！尽快确认。取车录详细视频，还车前洗车加油。减速带20-30码过，注意小面包车。别去机场租还车，限速注意。
+    <strong>租车提醒：</strong>全险已购，取车录详细视频，还车前加油洗车。减速带20-30码过，注意小面包车。别去机场租还车，限速注意。
   </div>
 </section>
 
@@ -521,6 +591,12 @@
   <img src="egypt-map.jpg" alt="埃及行程总览地图" onclick="event.stopPropagation()">
 </div>
 
+<!-- 图片放大 -->
+<div class="img-modal" id="imgModal" onclick="this.classList.remove('show')">
+  <span class="close">✕</span>
+  <img id="modalImg" src="" onclick="event.stopPropagation()">
+</div>
+
 <!-- 回到顶部 -->
 <div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
 
@@ -530,6 +606,7 @@
    ========================================================= */
 const SUPABASE_URL = 'https://ciwofaaseorheotftsxq.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpd29mYWFzZW9yaGVvdGZ0c3hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxNTYzNTIsImV4cCI6MjEwNDczMjM1Mn0.20kYNw2hdZnNR82qtFTe2fpr_IRPSOMPP10GELENUMo';
+const STORAGE_BUCKET = 'souvenir-images';
 
 /* =========================================================
    数据状态
@@ -549,20 +626,20 @@ const defaultState = {
   },
   customTickets: [],
   prep: [
-    { id: 'p1', text: '订酒店',       done: false },
-    { id: 'p2', text: '租车全险',     done: false },
-    { id: 'p3', text: '电子签证',     done: false },
-    { id: 'p4', text: '国际驾照翻译件', done: false },
-    { id: 'p5', text: '景区门票',     done: false }
+    { id: 'p1', text: '订酒店',       done: false, note: '' },
+    { id: 'p2', text: '租车全险',     done: false, note: '' },
+    { id: 'p3', text: '电子签证',     done: false, note: '' },
+    { id: 'p4', text: '国际驾照翻译件', done: false, note: '' },
+    { id: 'p5', text: '景区门票',     done: false, note: '' }
   ],
   souvenirs: {
     xiaoji: [
-      { id: 's1', text: '沙草纸书签', done: false },
-      { id: 's2', text: '冰箱贴',     done: false }
+      { id: 's1', text: '沙草纸书签', done: false, note: '', img: '' },
+      { id: 's2', text: '冰箱贴',     done: false, note: '', img: '' }
     ],
     xiaohe: [
-      { id: 's3', text: 'Nillens六件套',       done: false },
-      { id: 's4', text: 'Vatika蜂蜜鸡蛋发膜', done: false }
+      { id: 's3', text: 'Nillens六件套',       done: false, note: '', img: '' },
+      { id: 's4', text: 'Vatika蜂蜜鸡蛋发膜', done: false, note: '', img: '' }
     ]
   }
 };
@@ -594,7 +671,6 @@ async function fetchFromCloud() {
     if (json && json[0] && json[0].content && Object.keys(json[0].content).length > 0) {
       const cloud = json[0].content;
       const merged = { ...JSON.parse(JSON.stringify(defaultState)), ...cloud };
-      // 补全默认 tickets 里云端缺失的 key
       if (!merged.tickets) merged.tickets = {};
       Object.keys(defaultState.tickets).forEach(k => {
         if (!merged.tickets[k]) merged.tickets[k] = { ...defaultState.tickets[k] };
@@ -628,6 +704,30 @@ async function pushToCloud() {
 function commit() {
   saveLocal(state);
   pushToCloud();
+}
+
+/* =========================================================
+   图片上传到 Supabase Storage
+   ========================================================= */
+async function uploadImage(file) {
+  const ext = file.name.split('.').pop() || 'jpg';
+  const filename = `${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;
+  const path = `${filename}`;
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${STORAGE_BUCKET}/${path}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': file.type
+    },
+    body: file
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    console.warn('上传失败', err);
+    throw new Error('上传失败');
+  }
+  return `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${path}`;
 }
 
 /* =========================================================
@@ -780,7 +880,7 @@ function switchTab(event, panelId) {
 }
 
 /* =========================================================
-   旅行前准备
+   旅行前准备（带备注）
    ========================================================= */
 function renderPrep() {
   const list = document.getElementById('prepList');
@@ -791,11 +891,18 @@ function renderPrep() {
     const div = document.createElement('div');
     div.className = 'prep-item';
     div.innerHTML = `
-      <input type="checkbox" ${item.done ? 'checked' : ''}>
-      <span class="${item.done ? 'done' : ''}">${item.text}</span>
-      <span class="del">删除</span>
+      <div class="row">
+        <input type="checkbox" ${item.done ? 'checked' : ''}>
+        <span class="text ${item.done ? 'done' : ''}">${item.text}</span>
+        <span class="del">删除</span>
+      </div>
+      ${item.note ? `<div class="note-text">${item.note}</div>` : ''}
+      <span class="note-toggle">${item.note ? '编辑备注' : '+ 添加备注'}</span>
+      <div class="note-box">
+        <input type="text" placeholder="写点备注..." value="${item.note || ''}">
+      </div>
     `;
-    div.querySelector('input').addEventListener('change', e => {
+    div.querySelector('input[type="checkbox"]').addEventListener('change', e => {
       item.done = e.target.checked;
       commit();
       renderPrep();
@@ -805,6 +912,20 @@ function renderPrep() {
       commit();
       renderPrep();
     });
+    const toggle = div.querySelector('.note-toggle');
+    const box = div.querySelector('.note-box');
+    toggle.addEventListener('click', () => {
+      box.classList.toggle('show');
+      if (box.classList.contains('show')) {
+        const inp = box.querySelector('input');
+        inp.focus();
+        inp.addEventListener('blur', () => {
+          item.note = inp.value.trim();
+          commit();
+          renderPrep();
+        });
+      }
+    });
     list.appendChild(div);
   });
 }
@@ -813,14 +934,14 @@ function addPrep() {
   const input = document.getElementById('prepInput');
   const val = input.value.trim();
   if (!val) return;
-  state.prep.push({ id: uid(), text: val, done: false });
+  state.prep.push({ id: uid(), text: val, done: false, note: '' });
   input.value = '';
   commit();
   renderPrep();
 }
 
 /* =========================================================
-   伴手礼
+   伴手礼（带图片 + 备注）
    ========================================================= */
 function renderSouvenir() {
   ['xiaoji','xiaohe'].forEach(key => {
@@ -830,13 +951,55 @@ function renderSouvenir() {
     const sorted = [...state.souvenirs[key]].sort((a,b) => (a.done === b.done) ? 0 : (a.done ? 1 : -1));
     sorted.forEach(item => {
       const div = document.createElement('div');
-      div.className = 'prep-item';
+      div.className = 'souvenir-item';
       div.innerHTML = `
-        <input type="checkbox" ${item.done ? 'checked' : ''}>
-        <span class="${item.done ? 'done' : ''}">${item.text}</span>
-        <span class="del">删除</span>
+        <div class="top-row">
+          <div class="souvenir-thumb">
+            ${item.img ? `<img src="${item.img}" alt="">` : '<span>+</span>'}
+            <input type="file" accept="image/*" style="display:none">
+          </div>
+          <div class="souvenir-info">
+            <div class="text ${item.done ? 'done' : ''}">${item.text}</div>
+          </div>
+          <div class="souvenir-actions">
+            <input type="checkbox" ${item.done ? 'checked' : ''}>
+            <span class="del">删除</span>
+          </div>
+        </div>
+        ${item.note ? `<div class="note-text">${item.note}</div>` : ''}
+        <span class="note-toggle">${item.note ? '编辑备注' : '+ 添加备注'}</span>
+        <div class="note-box">
+          <input type="text" placeholder="写点备注..." value="${item.note || ''}">
+        </div>
       `;
-      div.querySelector('input').addEventListener('change', e => {
+
+      const thumb = div.querySelector('.souvenir-thumb');
+      const fileInput = thumb.querySelector('input[type="file"]');
+
+      thumb.addEventListener('click', e => {
+        if (e.target.tagName === 'IMG') {
+          viewImage(e.target.src);
+        } else {
+          fileInput.click();
+        }
+      });
+
+      fileInput.addEventListener('change', async e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        try {
+          thumb.innerHTML = '<span style="font-size:11px;">上传中...</span>';
+          const url = await uploadImage(file);
+          item.img = url;
+          commit();
+          renderSouvenir();
+        } catch (err) {
+          alert('图片上传失败，请重试');
+          renderSouvenir();
+        }
+      });
+
+      div.querySelector('input[type="checkbox"]').addEventListener('change', e => {
         item.done = e.target.checked;
         commit();
         renderSouvenir();
@@ -846,6 +1009,21 @@ function renderSouvenir() {
         commit();
         renderSouvenir();
       });
+      const toggle = div.querySelector('.note-toggle');
+      const box = div.querySelector('.note-box');
+      toggle.addEventListener('click', () => {
+        box.classList.toggle('show');
+        if (box.classList.contains('show')) {
+          const inp = box.querySelector('input');
+          inp.focus();
+          inp.addEventListener('blur', () => {
+            item.note = inp.value.trim();
+            commit();
+            renderSouvenir();
+          });
+        }
+      });
+
       list.appendChild(div);
     });
   });
@@ -855,10 +1033,18 @@ function addSouvenir(key, inputId) {
   const input = document.getElementById(inputId);
   const val = input.value.trim();
   if (!val) return;
-  state.souvenirs[key].push({ id: uid(), text: val, done: false });
+  state.souvenirs[key].push({ id: uid(), text: val, done: false, note: '', img: '' });
   input.value = '';
   commit();
   renderSouvenir();
+}
+
+/* =========================================================
+   图片放大
+   ========================================================= */
+function viewImage(src) {
+  document.getElementById('modalImg').src = src;
+  document.getElementById('imgModal').classList.add('show');
 }
 
 /* =========================================================
