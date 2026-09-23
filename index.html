@@ -1126,7 +1126,29 @@ function renderSouvenir() {
     });
   });
 }
+
+function addSouvenir(key, inputId) {
+  const input = document.getElementById(inputId);
+  const val = input.value.trim();
+  if (!val) return;
+  state.souvenirs[key].push({ id: uid(), text: val, done: false, note: '', img: '' });
+  input.value = '';
+  commit();
+  renderSouvenir();
+}  
 /* =========================================================
+添加新类目
+========================================================= */
+function addPrep() {
+  const input = document.getElementById('prepInput');
+  const val = input.value.trim();
+  if (!val) return;
+  state.prep.push({ id: uid(), text: val, done: false, note: '' });
+  input.value = '';
+  commit();
+  renderPrep();
+}
+  /* =========================================================
    图片放大
    ========================================================= */
 function viewImage(src) {
