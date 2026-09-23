@@ -912,34 +912,46 @@ function renderPrep() {
       commit();
       renderPrep();
     });
+
     const toggle = div.querySelector('.note-toggle');
     const box = div.querySelector('.note-box');
+    const inp = box.querySelector('input');
+
     toggle.addEventListener('click', () => {
       box.classList.toggle('show');
-      if (box.classList.contains('show')) {
-        const inp = box.querySelector('input');
-        inp.focus();
-        inp.addEventListener('blur', () => {
-          item.note = inp.value.trim();
-          commit();
-          renderPrep();
-        });
-      }
+      if (box.classList.contains('show')) inp.focus();
     });
+
+    // 输入时实时保存，不重建 DOM
+    inp.addEventListener('input', () => {
+      item.note = inp.value;
+    });
+
+    // blur 时只 commit + 局部更新显示，不重建整个列表
+    inp.addEventListener('blur', () => {
+      item.note = inp.value.trim();
+      commit();
+      const existingNote = div.querySelector('.note-text');
+      if (item.note) {
+        if (existingNote) {
+          existingNote.textContent = item.note;
+        } else {
+          const noteDiv = document.createElement('div');
+          noteDiv.className = 'note-text';
+          noteDiv.textContent = item.note;
+          box.parentElement.insertBefore(noteDiv, toggle);
+        }
+        toggle.textContent = '编辑备注';
+      } else {
+        if (existingNote) existingNote.remove();
+        toggle.textContent = '+ 添加备注';
+      }
+      box.classList.remove('show');
+    });
+
     list.appendChild(div);
   });
 }
-
-function addPrep() {
-  const input = document.getElementById('prepInput');
-  const val = input.value.trim();
-  if (!val) return;
-  state.prep.push({ id: uid(), text: val, done: false, note: '' });
-  input.value = '';
-  commit();
-  renderPrep();
-}
-
 /* =========================================================
    伴手礼（带图片 + 备注）
    ========================================================= */
@@ -976,6 +988,7 @@ function renderSouvenir() {
       const thumb = div.querySelector('.souvenir-thumb');
       const fileInput = thumb.querySelector('input[type="file"]');
 
+      // 缩略图点击：有图放大，无图触发上传
       thumb.addEventListener('click', e => {
         if (e.target.tagName === 'IMG') {
           viewImage(e.target.src);
@@ -984,59 +997,89 @@ function renderSouvenir() {
         }
       });
 
+      // 图片上传：本地预览 + 异步上传
       fileInput.addEventListener('change', async e => {
         const file = e.target.files[0];
         if (!file) return;
+
+        // 1. 立即本地预览（base64），不用等网络
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const localUrl = ev.target.result;
+          thumb.innerHTML = '';
+          const previewImg = document.createElement('img');
+          previewImg.src = localUrl;
+          thumb.appendChild(previewImg);
+          thumb.appendChild(fileInput); // 保留 input，避免后续再次上传时找不到
+        };
+        reader.readAsDataURL(file);
+
+        // 2. 后台异步上传到 Supabase
         try {
-          thumb.innerHTML = '<span style="font-size:11px;">上传中...</span>';
-          const url = await uploadImage(file);
-          item.img = url;
+          const remoteUrl = await uploadImage(file);
+          item.img = remoteUrl;
           commit();
-          renderSouvenir();
+          // 把已显示的预览 img 的 src 换成远端 URL，不重建 DOM
+          const imgEl = thumb.querySelector('img');
+          if (imgEl) imgEl.src = remoteUrl;
         } catch (err) {
+          console.warn('上传失败', err);
           alert('图片上传失败，请重试');
-          renderSouvenir();
         }
       });
 
+      // 勾选
       div.querySelector('input[type="checkbox"]').addEventListener('change', e => {
         item.done = e.target.checked;
         commit();
         renderSouvenir();
       });
+
+      // 删除
       div.querySelector('.del').addEventListener('click', () => {
         state.souvenirs[key] = state.souvenirs[key].filter(x => x.id !== item.id);
         commit();
         renderSouvenir();
       });
+
+      // 备注
       const toggle = div.querySelector('.note-toggle');
       const box = div.querySelector('.note-box');
+      const inp = box.querySelector('input');
+
       toggle.addEventListener('click', () => {
         box.classList.toggle('show');
-        if (box.classList.contains('show')) {
-          const inp = box.querySelector('input');
-          inp.focus();
-          inp.addEventListener('blur', () => {
-            item.note = inp.value.trim();
-            commit();
-            renderSouvenir();
-          });
+        if (box.classList.contains('show')) inp.focus();
+      });
+
+      inp.addEventListener('input', () => {
+        item.note = inp.value;
+      });
+
+      inp.addEventListener('blur', () => {
+        item.note = inp.value.trim();
+        commit();
+        const existingNote = div.querySelector('.note-text');
+        if (item.note) {
+          if (existingNote) {
+            existingNote.textContent = item.note;
+          } else {
+            const noteDiv = document.createElement('div');
+            noteDiv.className = 'note-text';
+            noteDiv.textContent = item.note;
+            box.parentElement.insertBefore(noteDiv, toggle);
+          }
+          toggle.textContent = '编辑备注';
+        } else {
+          if (existingNote) existingNote.remove();
+          toggle.textContent = '+ 添加备注';
         }
+        box.classList.remove('show');
       });
 
       list.appendChild(div);
     });
   });
-}
-
-function addSouvenir(key, inputId) {
-  const input = document.getElementById(inputId);
-  const val = input.value.trim();
-  if (!val) return;
-  state.souvenirs[key].push({ id: uid(), text: val, done: false, note: '', img: '' });
-  input.value = '';
-  commit();
-  renderSouvenir();
 }
 
 /* =========================================================
